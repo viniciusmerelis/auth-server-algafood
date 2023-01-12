@@ -70,7 +70,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-//        security.checkTokenAccess("isAuthenticated()");
         security.checkTokenAccess("permitAll()")
                 .tokenKeyAccess("permitAll()")
                 .allowFormAuthenticationForClients();
@@ -79,8 +78,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         var enchancerChain = new TokenEnhancerChain();
-        enchancerChain.setTokenEnhancers(Arrays.asList(new JwtCustomClaimsTokenEnhancer(), new JwtAccessTokenConverter()));
-
+        enchancerChain.setTokenEnhancers(Arrays.asList(new JwtCustomClaimsTokenEnhancer(), jwtAccessTokenConverter()));
         endpoints
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
